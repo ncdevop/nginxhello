@@ -1,0 +1,12 @@
+language: bash
+sudo: required
+services:
+  - docker
+script:
+  - docker build -t ncdevop/nginxhello .
+after_success:
+  - docker login -u $DOCKER_USER -p $DOCKER_PASSWD
+  - docker tag ncdevop/nginxhello $DOCKER_USER/nginxhello:$TRAVIS_BUILD_NUMBER
+  - docker push $DOCKER_USER/nginxhello:$TRAVIS_BUILD_NUMBER
+  - docker tag ncdevop/nginxhello $DOCKER_USER/nginxhello:latest
+  - docker push $DOCKER_USER/nginxhello:latest
