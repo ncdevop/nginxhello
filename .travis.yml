@@ -8,7 +8,7 @@ after_success:
   - docker run -d -p80:80 ncdevop/nginxhello:latest
 after_script:
    - |
-    output='zzz'
+    output='Hello World!'
     if [[ $(curl -v --silent http://localhost:80 2>&1 | egrep "$output") ]]; then
       echo "The desired output string ($output) is present. Continuing"
       docker tag ncdevop/nginxhello $DOCKER_USER/nginxhello:$TRAVIS_BUILD_NUMBER
@@ -19,3 +19,13 @@ after_script:
       echo 'curl test failed so exiting'
       exit 1
     fi
+
+install:
+  - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+  - chmod +x ./kubectl
+  - sudo mv ./kubectl /usr/local/bin/kubectl
+  - mkdir ${HOME}/.kube
+  - echo "$KUBE_CONFIG" | base64 --decode > ${HOME}/.kube/config
+
+script:
+  - kubectl get pods
