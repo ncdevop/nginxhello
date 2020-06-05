@@ -4,17 +4,15 @@ dist: xenial
 services:
   - docker
 script:
-  - docker pull ncdevop/nginxhello
+  - docker pull ncdevop/nginxhello:latest
   - docker images
-  - docker build -t ncdevop/nginxhello .
 after_success:
-  - docker run -d -p80:80 ncdevop/nginxhello
+  - docker run -d -p 80:80 ncdevop/nginxhello:latest
 after_script:
   - |
     output='Hello World!'
     if [[ $(curl -v --silent http://localhost:80 2>&1 | egrep "$output") ]]; then
-      docker tag ncdevop/nginxhello $DOCKER_USER/nginxhello:$TRAVIS_BUILD_NUMBER
-      docker tag ncdevop/nginxhello $DOCKER_USER/nginxhello:latest
+      docker tag $DOCKER_USER/nginxhello $DOCKER_USER/nginxhello:$TRAVIS_BUILD_NUMBER
       docker login -u $DOCKER_USER -p $DOCKER_PASSWD && docker push $DOCKER_USER/nginxhello:$TRAVIS_BUILD_NUMBER
     else
       echo 'curl test failed so exiting'
