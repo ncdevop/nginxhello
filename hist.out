@@ -1,0 +1,501 @@
+  586  aws s3api create-bucket --bucket nginxhello-kops-state-store --create-bucket-configuration LocationConstraint=us-east-2
+  587  aws s3api put-bucket-versioning --bucket nginxhello-kops-state-store --versioning-configuration Status=Enabled
+  588  export KOPS_CLUSTER_NAME=nginxhello.k8s.local
+  589  export KOPS_STATE_STORE=s3://nginxhello-kops-state-store
+  590  clear
+  591  kops create cluster --node-count=2 --node-size=t2.medium --zones=us-east-2a --name=${KOPS_CLUSTER_NAME}
+  592  cd 
+  593  ls
+  594  mkdir nginxhello_k8s_data
+  595  cd nginxhello_k8s_data/
+  596  vi nginxhello.cluster.create.output
+  597  cat ~/.aws/credentials
+  598  export AWS_ACCESS_KEY=AKIAZY6FS7M2Y34PTOGA
+  599  export AWS_SECRET_KEY=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
+  600  kops create cluster --help
+  601  kops edit cluster --name ${KOPS_CLUSTER_NAME}
+  602  pwd
+  603  cd
+  604  ls -altr
+  605  ls -a
+  606  kops update cluster --name ${KOPS_CLUSTER_NAME} --yes
+  607  ssh -i ~/.ssh/id_rsa admin@api.nginxhello.k8s.local
+  608  kubectl get nodes --show-labels
+  609  kubectl get all 
+  610  kops validate cluster
+  611  pwd
+  612  ls -latr
+  613  ll .kube
+  614  cat .kube/config
+  615  clear
+  616  kubectl get all
+  617  kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+  618  kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml
+  619  kops get secrets kube --type secret -oplaintext
+  620  kubectl cluster-info
+  621  kops get secrets admin --type secret -oplaintext
+  622  kubectl proxy
+  623  bg
+  624  kops get secrets admin --type secret -oplaintext
+  625  pwd
+  626  ll
+  627  cd docker-dir/
+  628  ll
+  629  cd
+  630  mkdir smashing_boxes_dir
+  631  cd smashing_boxes_dir/
+  632  ll
+  633  vi Dockerfile
+  634  vi index.html
+  635  cat Dockerfile 
+  636  docker build -t nginxhello .
+  637  docker run -d -p 8585:80 -name nginxhello01 nginxhello
+  638  docker run -d -p 8585:80 --name nginxhello01 nginxhello
+  639  docker container ps
+  640  docker exec -it nginxhello01 bash
+  641  docker exec -it nginxhello01 /bin/sh
+  642  docker ps
+  643  docker images
+  644  docker push ncdevop/cheers2019:tagname
+  645  docker push ncdevop/nginxhello:latest
+  646  pwd
+  647  ll
+  648  docker build -t ncdevop/nginxhello:v001 .
+  649  docker images
+  650  docker push ncdevop/nginxhello:v001
+  651  kubectl get all
+  652  kubectl create deployment nginxhello --image=ncdevop/nginxhello:v001
+  653  zzzkubectl expose deployment nginxhello --type=loadbalancer --port=80 --targetport=8585 
+  654  docker ps
+  655  kubectl expose deployment nginxhello --type=loadbalancer --port=80 --targetport=8585 
+  656  kubectl expose deployment nginxhello --type=loadbalancer --port=80 --target-port=8585 
+  657  kubectl expose deployment nginxhello --type=LoadBalancer --port=80 --target-port=8585 
+  658  kubectl get svc
+  659  kubectl get svc
+  660  kubectl get svc
+  661  kubectl get all
+  662  docker ps
+  663  kubectl get svc
+  664  history |grep kubectl
+  665  kubectl get nodes --show-labels
+  666  kubectl get all
+  667  kubectl get all --all-namespaces
+  668  kubectl get svc
+  669  kubectl edit deployment nginxhello
+  670  kubectl delete deployment nginxhello
+  671  kubectl get all svc
+  672  kubectl get svc
+  673  kubectl delete service nginxhello
+  674  pwd
+  675  ll
+  676  git init
+  677  cat index.html 
+  678  vi index.html 
+  679  git add -A
+  680  git status
+  681  git commit -m "First push for nginxhello"
+  682  git push
+  683  git push nginxhello
+  684  git push --set-upstream nginxhello master
+  685  git remote add origin https://github.com/ncdevop/nginxhello.git
+  686  git push -u origin master
+  687  git add README.md
+  688  echo "# nginxhello" >> README.md
+  689  git add README.md
+  690  docker images
+  691  docker ps
+  692  docker stop fe
+  693  docker ps
+  694  docker rm fe
+  695  docker rmi fe
+  696  docker images
+  697  docker images
+  698  docker rm e6e
+  699  docker rmi e6e
+  700  docker --force rmi e6e
+  701  docker rmi --help
+  702  docker rmi --force e6e
+  703  docker images
+  704  pwd
+  705  ll
+  706  
+  707  ll
+  708  vi Dockerfile 
+  709  docker build -t ncdevop/nginxhello:v002 .
+  710  docker run -d -p 8282:80 --name nginxhello01 nginxhello
+  711  docker run -d -p 8282:80 --name ncdevop/nginxhello:v002 nginxhello
+  712  docker run -d -p 8282:80 --name nginxhellov2 ncdevop/nginxhello:v002
+  713  git status
+  714  vi index.html 
+  715  git status
+  716  git add -A
+  717  git commit -m "Added readme and added h1 tag to index.html"
+  718  git push
+  719  history |grep kubectl
+  720  kubectl create deployment nginxhello02 --image=ncdevop/nginxhello:v002
+  721  kubectl cluster-info
+  722  kubectl expose deployment nginxhello02 --type=LoadBalancer --port=80 --target-port=8282
+  723  kubectl get all
+  724  ll
+  725  vi Dockerfile 
+  726  git status
+  727  git add -A
+  728  git status
+  729  git commit -m "Added EXPOSE to Dockerfile"
+  730  git push
+  731  history |grep kubectl
+  732  zzzkubectl delete service nginxhello
+  733  kubectl get svc
+  734  kubectl get svc
+  735  kubectl delete deployment nginxhello02
+  736  kubectl delete service nginxhello02
+  737  kubectl get all --all-namespaces -o wide
+  738  vi rm.me
+  739  grep nginx rm.me 
+  740  rm rm.me 
+  741  clear
+  742  history
+  743  zzzkubectl create deployment nginxhello02 --image=ncdevop/nginxhello:v002
+  744  docker images
+  745  docker ps
+  746  docker stop nginx
+  747  docker stop ncdevop
+  748  docker stop ncdevop/nginxhello:v002
+  749  docker stop 160
+  750  docker rm 160
+  751  docker rmi a225
+  752  docker build -t ncdevop/nginxhello:v003 .
+  753  docker push ncdevop/nginxhello:v003
+  754  kubectl create deployment nginxhello --image=ncdevop/nginxhello:v003
+  755  history |grep kubectl
+  756  kubectl expose deployment nginxhello --type=LoadBalancer --port=80 --target-port=80
+  757  kubectl get svc
+  758  kubectl cluster-info
+  759  kubectl get pods
+  760  kubectl get nodes
+  761  kubectl get svc
+  762  cd ..
+  763  mkdir nginxdemos-hello
+  764  cd nginxdemos-hello/
+  765  docker pull nginxdemos/hello:plain-text
+  766  docker run -P -d nginxdemos/hello:plain-text
+  767  docker ps
+  768  docker images
+  769  docker images |grep nginx
+  770  docker ps
+  771  docker stop 3f
+  772  docker rm 3f
+  773  docker run -P -d nginxdemos/hello
+  774  docker ps
+  775  docker images
+  776  docker push nginxdemos/hello:latest
+  777  history |grep login
+  778  cd
+  779  ll
+  780  docker login
+  781  docker push nginxdemos/hello:latest
+  782  ls -a
+  783  ls -al .dock*
+  784  date
+  785  cd .docker
+  786  ll
+  787  cat config.json 
+  788  docker logout
+  789  ll
+  790  cat config.json 
+  791  docker login -u ncdevop 
+  792  docker login -u ncdevop 
+  793  docker login -u ncdevop 
+  794  docker login -u ncdevop 
+  795  docker push nginxdemos/hello:latest
+  796  docker logout
+  797  docker logout
+  798  docker login -u ncdevop -p 987Dh987docker logout! docker.io
+  799  docker login -u ncdevop docker.io
+  800  docker push nginxdemos/hello:latest docker.io
+  801  docker push nginxdemos/hello:latest 
+  802  docker info
+  803  docker push https://docker.io/nginxdemos/hello:latest 
+  804  docker push docker.io/ncdevop/nginxdemos/hello:latest 
+  805  docker push docker.io/nginxdemos/hello:latest 
+  806  ls -al
+  807  pwd
+  808  cd
+  809  ls -al
+  810  python3
+  811  python3
+  812  ping 1.1.1.1
+  813  history
+  814  ls -latr
+  815  cd nginxdemos-hello/
+  816  ll
+  817  docker run -d -p 50000:5000 --restart always --name local-registry registry:latest
+  818  docker ps
+  819  docker stop 7f4
+  820  docker rm 7f4
+  821  docker images
+  822  docker push nginxdemos/hello:latest localhost:5000/nginxdemos/hello:latest
+  823  docker push localhost:5000/nginxdemos/hello:latest
+  824  docker push nginxdemos/hello:latest localhost:5000
+  825  docker push --help
+  826  docker tag nginxdemos/hello:latest local-registry:50000/nginxdemos/hello:ncdevop
+  827  docker push nginxdemos/hello:ncdevop
+  828  docker logout
+  829  docker push nginxdemos/hello:ncdevop
+  830  docker push local-registry:50000/nginxdemos/hello:ncdevop
+  831  docker ps
+  832  docker images
+  833  vi /etc/hosts
+  834  sudo vi /etc/hosts
+  835  ping local-registry
+  836  docker push local-registry:50000/nginxdemos/hello:ncdevop
+  837  kubectl get nodes
+  838  kubectl get svc
+  839  kubectl delete service nginxhello
+  840  kubectl delete deployment nginxhello
+  841  history |grep kubectl
+  842  kubectl create deployment nginxhello --image=local-registry:50000/nginxdemos/hello:ncdevop
+  843  kubectl expose deployment nginxhello --type=LoadBalancer --port=80 --target-port=80
+  844  kubectl get svc
+  845  kubectl get pods
+  846  kubectl get pods
+  847  kubectl get pods
+  848  cd
+  849  cd /
+  850  cd
+  851  kubectl get all
+  852  kubectl get all
+  853  kops get secrets admin --type secret -oplaintext
+  854  history |tail -20
+  855  kubectl get all
+  856  kubectl get all
+  857  kubectl delete deployment nginxhello
+  858  kubectl delete service nginxhello
+  859  kubectl create deployment nginxhello --image=local-registry:50000/nginxdemos/hello:ncdevop
+  860  zzzkubectl expose deployment nginxhello --type=LoadBalancer --port=80 --target-port=32769
+  861  docker ps
+  862  docker images
+  863  docker run -P -d nginxdemos/hello:latest
+  864  docker ps
+  865  docker exec -it d4 /bin/sh
+  866  docker ps
+  867  curl localhost:80
+  868  curl localhost:32770
+  869  clear
+  870  kubectl expose deployment nginxhello --type=LoadBalancer --port=80 --target-port=32768
+  871  kubectl get svc
+  872  kubectl get deployment
+  873  kubectl get pods
+  874  kops get secrets admin --type secret -oplaintext
+  875  kubectl get svc
+  876  kubectl get deployment
+  877  kubectl get svc
+  878  kubectl get deployment
+  879  clear
+  880  ll
+  881  cd smashing_boxes_dir/
+  882  ll
+  883  vi Dockerfile 
+  884  env
+  885  env |grep KOPS
+  886  kubectl get deployments
+  887  ll
+  888  kubectl delete service nginxhello
+  889  kubectl delete deployment nginxhello
+  890  history
+  891  history |grep create
+  892  ll
+  893  ls -al
+  894  git status
+  895  docker run -it -u travis quay.io/travisci/travis-jvm /bin/bash
+  896  docker ps
+  897  ll
+  898  ls -al
+  899  vi README.md 
+  900  git add -A
+  901  git status
+  902  git commit -m "Edit to README.md for a bump
+"
+  903  git push
+  904  vi Dockerfile 
+  905  docker build nginxhellotestrmme .
+  906  docker build -t ncdevop/nginxhello:travistestrmme01 .
+  907  docker push ncdevop/nginxhello:travistestrmme01 .
+  908  docker login
+  909  docker login
+  910  docker push ncdevop/nginxhello:travistestrmme01
+  911  history |grep kubectl
+  912  kubectl create deployment nginxhello --image=ncdevop/nginxhello:travistestrmme01
+  913  kubectl expose deployment nginxhello --type=LoadBalancer --port=80 --target-port=80
+  914  kubectl get svc
+  915  kubectl get deployments
+  916  curl ident.me
+  917  LL
+  918  ll
+  919  vi .travis.yml
+  920  kops get secrets admin --type secret -oplaintext
+  921  vi .travis.yml 
+  922  clear
+  923  git status
+  924  git add -A
+  925  git commit -m "Updated Dockerfile and add a .travis.yml"
+  926  git push
+  927  git status
+  928  pwd
+  929  ll
+  930  bat .travis.yml 
+  931  vim .travis.yml 
+  932  ga
+  933  gcm 
+  934  git add -A
+  935  git commit -m "asdf"
+  936  gp
+  937  git push
+  938  vim .travis.yml 
+  939  git add -A; git commit -m "asdf"; git push
+  940  vim .travis.yml 
+  941  cat .travis.yml 
+  942  docker build -t ncdevop/nginxhello .
+  943  docker tag ncdevop/nginxhello:005
+  944  docker tag ncdevop/nginxhello ncdevop/nginxhello:005
+  945  docker push ncdevop/nginxhello:005
+  946  vim .travis.yml 
+  947  git add -A; git commit -m "asdf"; git push
+  948  vim .travis.yml 
+  949  docker ps
+  950  docker stop d4
+  951  docker rm d4
+  952  docker images
+  953  docker rmi 6e65359f4166 de96644a713b
+  954  docker rm 
+  955  docker rmi --force 6e65359f4166 de96644a713b
+  956  vi .travis.yml 
+  957  ll
+  958  docker ps
+  959  docker run -d ncdevop/nginshello:latest
+  960  docker pull ncdevop/nginxhello:4
+  961  docker run -d ncdevop/nginxhello:4
+  962  docker ps
+  963  curl http://localhost:80
+  964  docker ps
+  965  curl http://localhost:80
+  966  curl http://127.0.0.1:80
+  967  netstat -tupln
+  968  netstat -an |grep 80
+  969  docker ps
+  970  docker stop 1c
+  971  docker rm 1c
+  972  docker run -d -p80:80 ncdevop/nginxhello:4
+  973  curl http://localhost:80
+  974  curl -X GET http://localhost:80
+  975  curl -v --silent http://localhost:80 2>&1 | grep Hello
+  976  curl -X --silent http://localhost:80 2>&1 | grep Hello
+  977  curl -v --silent http://localhost:80 2>&1 | grep Hello
+  978  curl -v --silent http://localhost:80 2>&1 | grep Hello
+  979  curl -X --silent http://localhost:80 2>&1 | grep "Hello World*"
+  980  curl -X --silent http://localhost:80 2>&1 | grep "Hello World\!"
+  981  curl -X --silent http://localhost:80 2>&1 | ngrep "Hello World\!"
+  982  curl -X --silent http://localhost:80 2>&1 | egrep "Hello World\!"
+  983  curl -X --silent http://localhost:80 2>&1 | egrep 'Hello World!'
+  984  curl -X --silent http://localhost:80 2>&1 | egrep 'Hello World\!'
+  985  curl -v --silent http://localhost:80 2>&1 | egrep 'Hello World\!'
+  986  curl -v --silent http://localhost:80 2>&1 | egrep 'Hello World!'
+  987  curl -v --silent http://localhost:80 2>&1 | grep 'Hello World!'
+  988  curl -v --silent http://localhost:80 2>&1 | egrep 'Hello World!'
+  989  curl -v http://localhost:80 2>&1 | egrep 'Hello World!'
+  990  curl -v --silent http://localhost:80 2>&1 | egrep 'Hello World!'
+  991  vi .travis.yml 
+  992  git status
+  993  git add -A
+  994  git status
+  995  git commit -m "tinkering with if conditional test in travis.yml"
+  996  git push
+  997  bat .travis.yml 
+  998  vi .travis.yml 
+  999  git add -A
+ 1000  git commit -m "more tinkering with if conditional test in travis.yml"
+ 1001  git push
+ 1002  vi .travis.yml 
+ 1003  git add -A
+ 1004  git commit -m "tinkering with if conditional test in travis.yml indentation within the if cond"
+ 1005  git push
+ 1006  vi .travis.yml 
+ 1007  git add -A
+ 1008  git commit -m "tinkering with if conditional test in travis.yml indentation within the if cond. adding semi colons" 
+ 1009  git push
+ 1010  vi .travis.yml 
+ 1011  git add -A
+ 1012  git commit -m "tinkering with if conditional test in travis.yml indentation within the if cond. Trying yml dash pipe syntax"
+ 1013  git push
+ 1014  vi .travis.yml 
+ 1015  git add -A
+ 1016  git commit -m "cond working. now forcing a failure"
+ 1017  git push
+ 1018  cat ${HOME}/.kube/config | base64 | pbcopy
+ 1019  vi /tmp/rmme
+ 1020  man pbcopy
+ 1021  vi .travis.yml 
+ 1022  git add -A
+ 1023  vi .travis.yml 
+ 1024  git add -A
+ 1025  git commit -m "Adding kubectl install and a small kubectl test"
+ 1026  git push
+ 1027  vi .travis.yml 
+ 1028  git add -A
+ 1029  git commit -m "removed the exit 0 from the first part of if block"
+ 1030  git push
+ 1031  kops get secrets admin --type secret -oplaintext
+ 1032  vi .travis.yml 
+ 1033  git add -A
+ 1034  git commit -m "edits to travis.yml after using travis.yml linter website"
+ 1035  git push
+ 1036  vi .travis.yml 
+ 1037  git add -A
+ 1038  git commit -m "added latest tag to docker build"
+ 1039  git push
+ 1040  vi .travis.yml 
+ 1041  git add -A
+ 1042  git commit -m "added docker pull"
+ 1043  git push
+ 1044  vi .travis.yml 
+ 1045  git add -A
+ 1046  git commit -m "added docker images"
+ 1047  git push
+ 1048  vi .travis.yml 
+ 1049  git add -A
+ 1050  git commit -m "dropped latest"
+ 1051  git push
+ 1052  vi .travis.yml 
+ 1053  docker images
+ 1054  history |grep docker
+ 1055  docker images |grep nginxhello
+ 1056  ll
+ 1057  docker build -t ncdevop/nginxhello:latest
+ 1058  docker build -t ncdevop/nginxhello:latest .
+ 1059  docker push ncdevop/nginxhello:latest 
+ 1060  vi .travis.yml 
+ 1061  git add -A
+ 1062  git commit -m "More cleanup edits"
+ 1063  git push
+ 1064  clear
+ 1065  bat .travis.yml 
+ 1066  kops get secrets admin --type secret -oplaintext
+ 1067  vi .travis.yml 
+ 1068  vi .travis.yml 
+ 1069  history |grep expose
+ 1070  vi .travis.yml 
+ 1071  git add -A 
+ 1072  git commit -m "Added 2 kubectl commands for deployment"
+ 1073  git push
+ 1074  vi .travis.yml 
+ 1075  git add -A 
+ 1076  git commit -m "Edited 2 kubectl commands for deployment replaced colons with hyphens"
+ 1077  git push
+ 1078  clear
+ 1079  bat .travis.yml 
+ 1080  clear
+ 1081  cat .travis.yml 
+ 1082  kops get secrets admin --type secret -oplaintext
+ 1083  clear
+ 1084  history 
+ 1085  history > hist.out
