@@ -14,7 +14,6 @@ after_script:
       docker tag ncdevop/nginxhello $DOCKER_USER/nginxhello:$TRAVIS_BUILD_NUMBER
       docker tag ncdevop/nginxhello $DOCKER_USER/nginxhello:latest
       docker login -u $DOCKER_USER -p $DOCKER_PASSWD && docker push $DOCKER_USER/nginxhello:$TRAVIS_BUILD_NUMBER
-      exit 0
     else
       echo 'curl test failed so exiting'
       exit 1
