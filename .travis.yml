@@ -5,7 +5,7 @@ services:
 script:
   - docker build -t ncdevop/nginxhello .
 after_success:
-  - docker run -d -p80:80 ncdevop/nginxhello:$TRAVIS_BUILD_NUMBER
+  - docker run -d -p80:80 ncdevop/nginxhello:latest
 
   - if [ curl -v --silent http://localhost:80 2>&1 | egrep 'Hello World!' == "true" ]; then
       echo "curl test success"
