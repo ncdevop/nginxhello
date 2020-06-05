@@ -27,5 +27,5 @@ install:
   - echo "$KUBE_CONFIG" | base64 --decode > ${HOME}/.kube/config
 
 script:
-  - kubectl create deployment $DOCKER_USER/nginxhello:$TRAVIS_BUILD_NUMBER --image=$DOCKER_USER/nginxhello:$TRAVIS_BUILD_NUMBER
-  - kubectl expose deployment $DOCKER_USER/nginxhello:$TRAVIS_BUILD_NUMBER --type=LoadBalancer --port=80 --target-port=80
+  - kubectl create deployment $DOCKER_USER-nginxhello-$TRAVIS_BUILD_NUMBER --image=$DOCKER_USER/nginxhello:$TRAVIS_BUILD_NUMBER
+  - kubectl expose deployment $DOCKER_USER-nginxhello-$TRAVIS_BUILD_NUMBER --type=LoadBalancer --port=80 --target-port=80
