@@ -5,6 +5,7 @@ services:
   - docker
 script:
   - docker pull ncdevop/nginxhello:latest
+  - docker images
   - docker build -t ncdevop/nginxhello:latest .
 after_success:
   - docker run -d -p80:80 ncdevop/nginxhello:latest
