@@ -1,5 +1,6 @@
 language: shell
-sudo: required
+os: linux
+dist: xenial
 services:
   - docker
 script:
@@ -7,10 +8,9 @@ script:
 after_success:
   - docker run -d -p80:80 ncdevop/nginxhello:latest
 after_script:
-   - |
+  - |
     output='Hello World!'
     if [[ $(curl -v --silent http://localhost:80 2>&1 | egrep "$output") ]]; then
-      echo "The desired output string ($output) is present. Continuing"
       docker tag ncdevop/nginxhello $DOCKER_USER/nginxhello:$TRAVIS_BUILD_NUMBER
       docker tag ncdevop/nginxhello $DOCKER_USER/nginxhello:latest
       docker login -u $DOCKER_USER -p $DOCKER_PASSWD && docker push $DOCKER_USER/nginxhello:$TRAVIS_BUILD_NUMBER
