@@ -19,6 +19,6 @@ Original requirements:
 	README.md
 	index.html
 6. Once a working deployment I edited the .travis.yml to make one fail to make sure that it exited
-	at that point and didn't keep creating artifacts.
+	at that point and didn't keep creating artifacts..
 	
 	 
