@@ -1,6 +1,14 @@
 language: shell
 os: linux
 dist: xenial
+
+install:
+  - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+  - chmod +x ./kubectl
+  - sudo mv ./kubectl /usr/local/bin/kubectl
+  - mkdir ${HOME}/.kube
+  - echo "$KUBE_CONFIG" | base64 --decode > ${HOME}/.kube/config
+
 services:
   - docker
 script:
@@ -14,18 +22,9 @@ after_script:
     if [[ $(curl -v --silent http://localhost:80 2>&1 | egrep "$output") ]]; then
       docker tag $DOCKER_USER/nginxhello $DOCKER_USER/nginxhello:$TRAVIS_BUILD_NUMBER
       docker login -u $DOCKER_USER -p $DOCKER_PASSWD && docker push $DOCKER_USER/nginxhello:$TRAVIS_BUILD_NUMBER
+      kubectl create deployment $DOCKER_USER-nginxhello-$TRAVIS_BUILD_NUMBER --image=$DOCKER_USER/nginxhello:$TRAVIS_BUILD_NUMBER
+      kubectl expose deployment $DOCKER_USER-nginxhello-$TRAVIS_BUILD_NUMBER --type=LoadBalancer --port=80 --target-port=80
     else
-      echo 'curl test failed so exiting'
+      echo 'Curl test for proper response failed so exiting'
       exit 1
     fi
-
-install:
-  - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-  - chmod +x ./kubectl
-  - sudo mv ./kubectl /usr/local/bin/kubectl
-  - mkdir ${HOME}/.kube
-  - echo "$KUBE_CONFIG" | base64 --decode > ${HOME}/.kube/config
-
-script:
-  - kubectl create deployment $DOCKER_USER-nginxhello-$TRAVIS_BUILD_NUMBER --image=$DOCKER_USER/nginxhello:$TRAVIS_BUILD_NUMBER
-  - kubectl expose deployment $DOCKER_USER-nginxhello-$TRAVIS_BUILD_NUMBER --type=LoadBalancer --port=80 --target-port=80
